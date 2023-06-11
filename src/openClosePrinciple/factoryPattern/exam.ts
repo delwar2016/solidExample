@@ -11,7 +11,7 @@ abstract class Exam {
     name: string;
     duration: number;
     questions: Question[];
-    protected constructor(id: string, name: string, duration: number, questions: Question[]) {
+    constructor(id: string, name: string, duration: number, questions: Question[]) {
         this.id = id;
         this.name = name;
         this.duration = duration;
@@ -60,16 +60,16 @@ class ExamFactory {
        switch (type) {
            case 'multiple-choice':
                return new MultipleChoiceExam(id, name, duration, questions);
+           case 'essay':
+               return new EssayExam(id, name, duration, questions);
+           default:
+               throw new Error('Invalid Exam type');
        }
-    }
-
-    updateExam(id: string, name: string, duration: number) {
-        // do logic
     }
 }
 
 
-const examService = new ExamService();
-const exam = examService.createExam('001', 'test 1', 30, [new Question()]);
+const examFactory = new ExamFactory();
+const exam = examFactory.createExam('multiple-choice','001', 'test 1', 30, [new Question()]);
 exam.startExam();
 exam.submitExam();
